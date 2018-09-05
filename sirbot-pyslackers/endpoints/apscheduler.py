@@ -78,7 +78,7 @@ async def slack_users_list(bot):
 
 
 async def etc_finance_bell(bot, state):
-    LOG.info("Posting {} bell to #etc_finance".format(state))
+    LOG.info("Posting %s bell to #etc_finance", state)
 
     holidays = [
         datetime.date(2018, 1, 1),
