@@ -53,9 +53,9 @@ async def stock_quote(message, app):
             LOG.error("Error retrieving stock quotes: %s", e)
             response["text"] = "Unable to retrieve quotes right now."
     else:
-        change = quote["change"]
+        change = quote.get("change", 0)
         color = "gray"
-        if change > 0:
+        if change >= 0:
             color = "good"
         elif change < 0:
             color = "danger"
