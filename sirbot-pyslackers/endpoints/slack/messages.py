@@ -66,8 +66,8 @@ async def stock_quote(message, app):
                 {
                     "color": color,
                     "thumb_url": logo,
-                    "title": f'{quote.get("symbol", "")} ({quote.get("companyName", "")}): '
-                    f'${quote.get("latestPrice", 0):,.4f}',
+                    "title": f'{quote["symbol"]} ({quote["companyName"]}): '
+                    f'${quote["latestPrice"]:,.4f}',
                     "title_link": f"https://finance.yahoo.com/quote/{symbol}",
                     "fields": [
                         {
@@ -77,12 +77,12 @@ async def stock_quote(message, app):
                         },
                         {
                             "title": "Volume",
-                            "value": f'{quote.get("latestVolume", 0):,}',
+                            "value": f'{quote["latestVolume"]:,}',
                             "short": True,
                         },
                         {
                             "title": "Open",
-                            "value": f'${quote.get("open", 0):,.4f}',
+                            "value": f'${quote["open"]:,.4f}',
                             "short": True,
                         },
                         {
@@ -92,12 +92,12 @@ async def stock_quote(message, app):
                         },
                         {
                             "title": "Low",
-                            "value": f'${quote.get("low", 0):,.4f}',
+                            "value": f'${quote["low"]:,.4f}',
                             "short": True,
                         },
                         {
                             "title": "High",
-                            "value": f'${quote.get("high", 0):,.4f}',
+                            "value": f'${quote["high"]:,.4f}',
                             "short": True,
                         },
                     ],
