@@ -33,6 +33,7 @@ def create_endpoints(plugin):
     plugin.on_message("s\$[A-Z\.]{1,5}", stock_quote, wait=False)
     plugin.on_message("c\$[A-Z\.]{1,5}", crypto_quote, wait=False)
 
+
 async def crypto_quote(message, app):
     match = STOCK_REGEX.search(message.get("text", ""))
     if not match:
@@ -44,16 +45,17 @@ async def crypto_quote(message, app):
     response = message.response()
     try:
         stocks = app["plugins"]["stocks"]
-        crypto = (await stocks.crypto())
-        quote = ''
+        crypto = await stocks.crypto()
+        quote = None
         for c in crypto:
             if c["symbol"] == f"{symbol}USDT":
                 quote = c
-        if quote == '':
-            raise Exception
+                break
+        if quote == None:
+            response["text"] = f"The crypto symbol `{symbol}` could not be found"
+            LOG.error("No crypto currencies found when searching for: %s", symbol)
         LOG.debug("Crypto quote from IEX API: %s", quote)
-    except Exception as e:
-        response["text"] = f"The crypto symbol `{symbol}` could not be found"
+    except ClientResponseError as e:
         LOG.error("Error retrieving crypto quotes: %s", e)
     else:
         # Sometimes the API returns None records. We remove them here.
@@ -154,7 +156,7 @@ async def stock_quote(message, app):
                     "fields": [
                         {
                             "title": "Change",
-                            "value": f'${quote.get("change", 0):,.4f} (%{quote.get("changePercent", 0) * 100:,.4f})',
+                            "value": f'${quote.get("change", 0):,.4f} ({quote.get("changePercent", 0) * 100:,.4f}%)',
                             "short": True,
                         },
                         {
