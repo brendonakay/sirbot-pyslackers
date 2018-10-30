@@ -57,7 +57,7 @@ async def crypto_quote(message, app):
         LOG.debug("Crypto quote from IEX API: %s", quote)
     except ClientResponseError as e:
         LOG.error("Error retrieving crypto quotes: %s", e)
-    else:
+    if quote is not None:
         # Sometimes the API returns None records. We remove them here.
         quote = {k: v for k, v in quote.items() if v is not None}
         change = quote.get("change", 0)
