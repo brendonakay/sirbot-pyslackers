@@ -51,7 +51,7 @@ async def crypto_quote(message, app):
             if c["symbol"] == f"{symbol}USDT":
                 quote = c
                 break
-        if quote == None:
+        if quote is None:
             response["text"] = f"The crypto symbol `{symbol}` could not be found"
             LOG.error("No crypto currencies found when searching for: %s", symbol)
         LOG.debug("Crypto quote from IEX API: %s", quote)
