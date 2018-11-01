@@ -87,7 +87,7 @@ async def crypto_quote(message, app):
                         },
                         {
                             "title": "Low",
-                            "value": f'${quote.get("low"]:,.4f}',
+                            "value": f'${quote.get("low", 0):,.4f}',
                             "short": True,
                         },
                         {
